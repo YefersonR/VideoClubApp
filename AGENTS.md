@@ -16,6 +16,10 @@ src/
 │   │       └── Validators/
 │   ├── Controllers/
 │   ├── Data/
+│   │   ├── Entities/           # EF Core entity classes
+│   │   ├── Configurations/     # EF Core IEntityTypeConfiguration
+│   │   ├── AppDbContext.cs
+│   │   └── ServiceCollectionExtensions.cs
 │   ├── Middleware/
 │   └── Program.cs
 └── VideoClub.Client/       # Blazor WASM — entrypoint
@@ -30,55 +34,34 @@ src/
 
 ## Projects
 
-| Project            | TFM     | Type          | URL                                                |
-| ------------------ | ------- | ------------- | -------------------------------------------------- |
-| `VideoClub.Api`    | net10.0 | Minimal API   | http://localhost:5144, OpenAPI UI at `/openapi-ui` |
-| `VideoClub.Client` | net10.0 | Blazor WASM   | WASM host                                          |
-| `VideoClub.Shared` | net10.0 | Class library | —                                                  |
+| Project | TFM | Type | URL |
+|---|---|---|---|
+| `VideoClub.Api` | net10.0 | Minimal API | http://localhost:5144, OpenAPI UI at `/openapi-ui` |
+| `VideoClub.Client` | net10.0 | Blazor WASM | WASM host |
+| `VideoClub.Shared` | net10.0 | Class library | — |
 
 - **Clean Architecture:** Client → Shared, Api → Shared. Client must not reference DB concerns. Shared stays dependency-free.
 
-# Roles y Agentes del Proyecto
+## Architecture conventions (intended)
 
-Este archivo define los perfiles de los "Agentes" (IAs) que colaboran en el desarrollo. Cuando solicites ayuda, invoca a uno de estos agentes para obtener respuestas alineadas con nuestra arquitectura.
-
-## 1. El Orquestador (Architect Agent)
-
-**Rol:** Define la estructura, las reglas de comunicación entre proyectos y asegura el cumplimiento de la _Clean Architecture_.
-
-- **Reglas:**
-  - Prioriza siempre el desacoplamiento: Client no conoce la DB, API no conoce detalles de UI.
-  - Asegura que cualquier cambio estructural pase por el proyecto `Shared`.
-  - Define las políticas de filtrado de rutas para despliegues CI/CD.
-  - Vigila el cumplimiento del patrón CQRS.
-
-## 2. Especialista Backend (.NET Core / API Agent)
-
-**Rol:** Responsable de la lógica de negocio, persistencia y exposición de datos.
-
-- **Reglas:**
-  - **CQRS:** Todo `Command` o `Query` debe ir en su respectivo Handler.
-  - **Validación:** Uso estricto de `FluentValidation` en `PipelineBehaviors`.
-  - **Errores:** Devolver siempre `ProblemDetails` (RFC 7807) o un `Result<T>` estructurado.
-  - **Mapeo:** Uso de `Automapper` para transformar DTOs de `Shared` a comandos internos.
-  - **Seguridad:** Middleware configurado para JWT.
-
-## 3. Especialista Frontend (Blazor Agent)
-
-**Rol:** Responsable de la UI, experiencia de usuario y consumo de API.
-
-- **Reglas:**
-  - **Servicios:** Nunca usar `HttpClient` directamente en componentes; usar interfaces inyectadas (`IProductService`).
-  - **Auth:** Implementar `DelegatingHandler` para la inyección automática de tokens JWT.
-  - **UI:** Mantener los componentes reutilizables en `Components/` y la lógica de página en `Pages/`.
-  - **State:** Manejar el estado de la UI de forma centralizada cuando sea necesario.
-  - **Componentes:** MudBlazor tiene su propio sistema de `MudLayout`, `MudDrawer` y `MudAppBar`. Úsalos para reemplazar el layout estándar de Blazor.
-  - **Validaciones Integradas:** Utiliza `MudForm` en conjunto con `FluentValidation`. La validación en el cliente debe ser coherente con la validación de servidor definida en los _PipelineBehaviors_.
-  - **Iconos:** Utiliza la librería `MudBlazor.Icons` para mantener consistencia visual.
+- **CQRS:** Every Command/Query must have a corresponding Handler.
+- **Validation:** `FluentValidation` in `PipelineBehaviors`.
+- **Errors:** Return `ProblemDetails` (RFC 7807) or `Result<T>`.
+- **Mapping:** `AutoMapper` for Shared DTOs → internal commands.
+- **Security:** JWT middleware on the API.
+- **DB:** PostgreSQL + Entity Framework Core via Npgsql. All DB code in `Data/`.
+- **Client services:** Inject interfaces (`IProductService`), never `HttpClient` directly in components.
+- **Client auth:** `DelegatingHandler` for automatic JWT injection.
+- **UI:** Reusable components in `Components/`, page logic in `Pages/`. Use MudBlazor layout (`MudLayout`, `MudDrawer`, `MudAppBar`) over standard Blazor layout.
+- **Client validation:** `MudForm` + `FluentValidation`, consistent with server.
+- **Client icons:** `MudBlazor.Icons`.
 
 ## Commands
 
 ```powershell
+# Start PostgreSQL
+docker compose up -d
+
 # Build all
 dotnet build .\VideoClubApp.sln
 
@@ -87,6 +70,10 @@ dotnet run --project .\src\VideoClub.Api
 
 # Run client (requires API running)
 dotnet run --project .\src\VideoClub.Client
+
+# EF Core migrations
+dotnet ef migrations add InitialCreate --project .\src\VideoClub.Api
+dotnet ef database update --project .\src\VideoClub.Api
 ```
 
 - No test projects exist yet.
