@@ -15,5 +15,20 @@ services:
       interval: 10s
       retries: 5
 
+  seq:
+    image: datalust/seq:latest
+    container_name: videoclub-seq
+    ports:
+      - "5341:5341" 
+      - "8081:80"   
+    environment:
+      - ACCEPT_EULA=Y
+      - SEQ_FIRSTRUN_NOAUTHENTICATION=true
+    volumes:
+      - seqdata:/data
+
 volumes:
   pgdata:
+  seqdata:
+
+

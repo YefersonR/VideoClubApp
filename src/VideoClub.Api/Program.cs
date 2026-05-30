@@ -1,8 +1,12 @@
 using OpenApiUi;
+using Serilog;
 using VideoClub.Api.Data;
 using VideoClub.Api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((context, config) =>
+    config.ReadFrom.Configuration(context.Configuration));
 
 // Add services to the container.
 builder.Services.AddOpenApi();
@@ -16,10 +20,7 @@ app.UseMiddleware<ExceptionHandlingMiddleware>();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
-    app.UseOpenApiUi(config =>
-    {
-        config.OpenApiSpecPath = "/openapi/v1.json";
-    });
+    app.UseOpenApiUi(config => config.OpenApiSpecPath = "/openapi/v1.json");
 }
 
 app.UseHttpsRedirection();
@@ -31,7 +32,7 @@ var summaries = new[]
 
 app.MapGet("/weatherforecast", () =>
 {
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
+    var forecast = Enumerable.Range(1, 5).Select(index =>
         new WeatherForecast
         (
             DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
