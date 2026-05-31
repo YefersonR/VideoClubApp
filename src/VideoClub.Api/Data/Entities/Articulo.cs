@@ -1,6 +1,6 @@
 namespace VideoClub.Api.Data.Entities;
 
-public class Articulo
+public class Articulo : AuditableEntity
 {
     public long Id { get; set; }
     public string Titulo { get; set; } = string.Empty;
@@ -11,7 +11,6 @@ public class Articulo
     public int DiasRenta { get; set; } = 3;
     public decimal MontoEntregaTardia { get; set; }
     public int Stock { get; set; }
-    public bool Estado { get; set; } = true;
 
     public TipoArticulo TipoArticulo { get; set; } = null!;
     public Genero Genero { get; set; } = null!;

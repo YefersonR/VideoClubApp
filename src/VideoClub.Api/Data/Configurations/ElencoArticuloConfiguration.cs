@@ -9,7 +9,7 @@ public class ElencoArticuloConfiguration : IEntityTypeConfiguration<ElencoArticu
     public void Configure(EntityTypeBuilder<ElencoArticulo> builder)
     {
         builder.ToTable("ElencoArticulo");
-        builder.HasKey(e => new { e.ArticuloId, e.ElencoId, e.RolId });
+        builder.HasKey(e => new { e.ArticuloId, e.ElencoId, e.RolElencoId });
 
         builder.HasOne(e => e.Articulo)
             .WithMany(a => a.Elencos)
@@ -19,12 +19,12 @@ public class ElencoArticuloConfiguration : IEntityTypeConfiguration<ElencoArticu
             .WithMany(el => el.Articulos)
             .HasForeignKey(e => e.ElencoId);
 
-        builder.HasOne(e => e.Rol)
+        builder.HasOne(e => e.RolElenco)
             .WithMany(r => r.ElencosArticulos)
-            .HasForeignKey(e => e.RolId);
+            .HasForeignKey(e => e.RolElencoId);
 
         builder.HasIndex(e => e.ArticuloId);
         builder.HasIndex(e => e.ElencoId);
-        builder.HasIndex(e => e.RolId);
+        builder.HasIndex(e => e.RolElencoId);
     }
 }

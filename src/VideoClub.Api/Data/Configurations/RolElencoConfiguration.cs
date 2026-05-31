@@ -4,13 +4,13 @@ using VideoClub.Api.Data.Entities;
 
 namespace VideoClub.Api.Data.Configurations;
 
-public class ElencoConfiguration : IEntityTypeConfiguration<Elenco>
+public class RolElencoConfiguration : IEntityTypeConfiguration<RolElenco>
 {
-    public void Configure(EntityTypeBuilder<Elenco> builder)
+    public void Configure(EntityTypeBuilder<RolElenco> builder)
     {
-        builder.ToTable("Elenco");
+        builder.ToTable("RolesElenco");
         builder.HasKey(e => e.Id);
-        builder.Property(e => e.Nombre).HasColumnType("text").IsRequired();
+        builder.Property(e => e.Descripcion).HasColumnType("text").IsRequired();
         builder.Property(e => e.Estado).HasDefaultValue(true);
         builder.Property(e => e.FechaCreacion).HasColumnName("fecha_creacion").HasColumnType("timestamptz").HasDefaultValueSql("now()");
         builder.Property(e => e.FechaModificacion).HasColumnName("fecha_modificacion").HasColumnType("timestamptz");

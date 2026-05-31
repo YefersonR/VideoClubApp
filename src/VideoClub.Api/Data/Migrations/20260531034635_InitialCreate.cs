@@ -23,6 +23,10 @@ namespace VideoClub.Api.Data.Migrations
                     no_tarjeta_cr = table.Column<string>(type: "char(4)", maxLength: 4, nullable: false),
                     LimiteCredito = table.Column<decimal>(type: "numeric(10,2)", nullable: false, defaultValue: 0m),
                     TipoPersona = table.Column<string>(type: "text", nullable: false),
+                    fecha_creacion = table.Column<DateTime>(type: "timestamptz", nullable: false, defaultValueSql: "now()"),
+                    fecha_modificacion = table.Column<DateTime>(type: "timestamptz", nullable: true),
+                    usuario_creacion = table.Column<string>(type: "text", nullable: false),
+                    usuario_modificacion = table.Column<string>(type: "text", nullable: true),
                     Estado = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true)
                 },
                 constraints: table =>
@@ -38,6 +42,10 @@ namespace VideoClub.Api.Data.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Nombre = table.Column<string>(type: "text", nullable: false),
+                    fecha_creacion = table.Column<DateTime>(type: "timestamptz", nullable: false, defaultValueSql: "now()"),
+                    fecha_modificacion = table.Column<DateTime>(type: "timestamptz", nullable: true),
+                    usuario_creacion = table.Column<string>(type: "text", nullable: false),
+                    usuario_modificacion = table.Column<string>(type: "text", nullable: true),
                     Estado = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true)
                 },
                 constraints: table =>
@@ -56,6 +64,12 @@ namespace VideoClub.Api.Data.Migrations
                     tanda_labor = table.Column<string>(type: "text", nullable: false),
                     PorcientoComision = table.Column<decimal>(type: "numeric(5,2)", nullable: false, defaultValue: 0m),
                     FechaIngreso = table.Column<DateOnly>(type: "date", nullable: false),
+                    nombre_usuario = table.Column<string>(type: "text", nullable: false),
+                    password_hash = table.Column<string>(type: "text", nullable: false),
+                    fecha_creacion = table.Column<DateTime>(type: "timestamptz", nullable: false, defaultValueSql: "now()"),
+                    fecha_modificacion = table.Column<DateTime>(type: "timestamptz", nullable: true),
+                    usuario_creacion = table.Column<string>(type: "text", nullable: false),
+                    usuario_modificacion = table.Column<string>(type: "text", nullable: true),
                     Estado = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true)
                 },
                 constraints: table =>
@@ -71,6 +85,10 @@ namespace VideoClub.Api.Data.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Descripcion = table.Column<string>(type: "text", nullable: false),
+                    fecha_creacion = table.Column<DateTime>(type: "timestamptz", nullable: false, defaultValueSql: "now()"),
+                    fecha_modificacion = table.Column<DateTime>(type: "timestamptz", nullable: true),
+                    usuario_creacion = table.Column<string>(type: "text", nullable: false),
+                    usuario_modificacion = table.Column<string>(type: "text", nullable: true),
                     Estado = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true)
                 },
                 constraints: table =>
@@ -85,6 +103,10 @@ namespace VideoClub.Api.Data.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Descripcion = table.Column<string>(type: "text", nullable: false),
+                    fecha_creacion = table.Column<DateTime>(type: "timestamptz", nullable: false, defaultValueSql: "now()"),
+                    fecha_modificacion = table.Column<DateTime>(type: "timestamptz", nullable: true),
+                    usuario_creacion = table.Column<string>(type: "text", nullable: false),
+                    usuario_modificacion = table.Column<string>(type: "text", nullable: true),
                     Estado = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true)
                 },
                 constraints: table =>
@@ -93,17 +115,21 @@ namespace VideoClub.Api.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Roles",
+                name: "RolesElenco",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Descripcion = table.Column<string>(type: "text", nullable: false),
+                    fecha_creacion = table.Column<DateTime>(type: "timestamptz", nullable: false, defaultValueSql: "now()"),
+                    fecha_modificacion = table.Column<DateTime>(type: "timestamptz", nullable: true),
+                    usuario_creacion = table.Column<string>(type: "text", nullable: false),
+                    usuario_modificacion = table.Column<string>(type: "text", nullable: true),
                     Estado = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Roles", x => x.Id);
+                    table.PrimaryKey("PK_RolesElenco", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -113,6 +139,10 @@ namespace VideoClub.Api.Data.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Descripcion = table.Column<string>(type: "text", nullable: false),
+                    fecha_creacion = table.Column<DateTime>(type: "timestamptz", nullable: false, defaultValueSql: "now()"),
+                    fecha_modificacion = table.Column<DateTime>(type: "timestamptz", nullable: true),
+                    usuario_creacion = table.Column<string>(type: "text", nullable: false),
+                    usuario_modificacion = table.Column<string>(type: "text", nullable: true),
                     Estado = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true)
                 },
                 constraints: table =>
@@ -134,6 +164,10 @@ namespace VideoClub.Api.Data.Migrations
                     DiasRenta = table.Column<int>(type: "integer", nullable: false, defaultValue: 3),
                     MontoEntregaTardia = table.Column<decimal>(type: "numeric(10,2)", nullable: false, defaultValue: 0m),
                     Stock = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
+                    fecha_creacion = table.Column<DateTime>(type: "timestamptz", nullable: false, defaultValueSql: "now()"),
+                    fecha_modificacion = table.Column<DateTime>(type: "timestamptz", nullable: true),
+                    usuario_creacion = table.Column<string>(type: "text", nullable: false),
+                    usuario_modificacion = table.Column<string>(type: "text", nullable: true),
                     Estado = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true)
                 },
                 constraints: table =>
@@ -165,11 +199,11 @@ namespace VideoClub.Api.Data.Migrations
                 {
                     ArticuloId = table.Column<long>(type: "bigint", nullable: false),
                     ElencoId = table.Column<long>(type: "bigint", nullable: false),
-                    RolId = table.Column<long>(type: "bigint", nullable: false)
+                    RolElencoId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ElencoArticulo", x => new { x.ArticuloId, x.ElencoId, x.RolId });
+                    table.PrimaryKey("PK_ElencoArticulo", x => new { x.ArticuloId, x.ElencoId, x.RolElencoId });
                     table.ForeignKey(
                         name: "FK_ElencoArticulo_Articulos_ArticuloId",
                         column: x => x.ArticuloId,
@@ -183,9 +217,9 @@ namespace VideoClub.Api.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ElencoArticulo_Roles_RolId",
-                        column: x => x.RolId,
-                        principalTable: "Roles",
+                        name: "FK_ElencoArticulo_RolesElenco_RolElencoId",
+                        column: x => x.RolElencoId,
+                        principalTable: "RolesElenco",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -206,6 +240,10 @@ namespace VideoClub.Api.Data.Migrations
                     cantidad_dias = table.Column<int>(type: "integer", nullable: false),
                     DiasRetraso = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
                     Comentario = table.Column<string>(type: "text", nullable: true),
+                    fecha_creacion = table.Column<DateTime>(type: "timestamptz", nullable: false, defaultValueSql: "now()"),
+                    fecha_modificacion = table.Column<DateTime>(type: "timestamptz", nullable: true),
+                    usuario_creacion = table.Column<string>(type: "text", nullable: false),
+                    usuario_modificacion = table.Column<string>(type: "text", nullable: true),
                     Estado = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true)
                 },
                 constraints: table =>
@@ -263,14 +301,20 @@ namespace VideoClub.Api.Data.Migrations
                 column: "ElencoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ElencoArticulo_RolId",
+                name: "IX_ElencoArticulo_RolElencoId",
                 table: "ElencoArticulo",
-                column: "RolId");
+                column: "RolElencoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Empleados_Cedula",
                 table: "Empleados",
                 column: "Cedula",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Empleados_nombre_usuario",
+                table: "Empleados",
+                column: "nombre_usuario",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -313,7 +357,7 @@ namespace VideoClub.Api.Data.Migrations
                 name: "Elenco");
 
             migrationBuilder.DropTable(
-                name: "Roles");
+                name: "RolesElenco");
 
             migrationBuilder.DropTable(
                 name: "Articulos");

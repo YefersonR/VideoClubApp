@@ -1,6 +1,6 @@
 namespace VideoClub.Api.Data.Entities;
 
-public class RentaDevolucion
+public class RentaDevolucion : AuditableEntity
 {
     public long Id { get; set; }
     public string NoRenta { get; set; } = string.Empty;
@@ -13,7 +13,6 @@ public class RentaDevolucion
     public int CantidadDias { get; set; }
     public int DiasRetraso { get; private set; }
     public string? Comentario { get; set; }
-    public bool Estado { get; set; } = true;
 
     public Empleado Empleado { get; set; } = null!;
     public Articulo Articulo { get; set; } = null!;

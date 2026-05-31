@@ -1,10 +1,9 @@
 namespace VideoClub.Api.Data.Entities;
 
-public class Genero
+public class Genero : AuditableEntity
 {
     public long Id { get; set; }
     public string Descripcion { get; set; } = string.Empty;
-    public bool Estado { get; set; } = true;
 
     public ICollection<Articulo> Articulos { get; set; } = new List<Articulo>();
 }

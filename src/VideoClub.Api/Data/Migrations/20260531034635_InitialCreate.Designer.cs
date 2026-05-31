@@ -12,7 +12,7 @@ using VideoClub.Api.Data;
 namespace VideoClub.Api.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260530193508_InitialCreate")]
+    [Migration("20260531034635_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -43,6 +43,16 @@ namespace VideoClub.Api.Data.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(true);
 
+                    b.Property<DateTime>("FechaCreacion")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("fecha_creacion")
+                        .HasDefaultValueSql("now()");
+
+                    b.Property<DateTime?>("FechaModificacion")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("fecha_modificacion");
+
                     b.Property<long>("GeneroId")
                         .HasColumnType("bigint");
 
@@ -69,6 +79,15 @@ namespace VideoClub.Api.Data.Migrations
                     b.Property<string>("Titulo")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<string>("UsuarioCreacion")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("usuario_creacion");
+
+                    b.Property<string>("UsuarioModificacion")
+                        .HasColumnType("text")
+                        .HasColumnName("usuario_modificacion");
 
                     b.HasKey("Id");
 
@@ -98,6 +117,16 @@ namespace VideoClub.Api.Data.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(true);
 
+                    b.Property<DateTime>("FechaCreacion")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("fecha_creacion")
+                        .HasDefaultValueSql("now()");
+
+                    b.Property<DateTime?>("FechaModificacion")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("fecha_modificacion");
+
                     b.Property<decimal>("LimiteCredito")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("numeric(10,2)")
@@ -116,6 +145,15 @@ namespace VideoClub.Api.Data.Migrations
                     b.Property<string>("TipoPersona")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<string>("UsuarioCreacion")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("usuario_creacion");
+
+                    b.Property<string>("UsuarioModificacion")
+                        .HasColumnType("text")
+                        .HasColumnName("usuario_modificacion");
 
                     b.HasKey("Id");
 
@@ -141,9 +179,28 @@ namespace VideoClub.Api.Data.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(true);
 
+                    b.Property<DateTime>("FechaCreacion")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("fecha_creacion")
+                        .HasDefaultValueSql("now()");
+
+                    b.Property<DateTime?>("FechaModificacion")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("fecha_modificacion");
+
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<string>("UsuarioCreacion")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("usuario_creacion");
+
+                    b.Property<string>("UsuarioModificacion")
+                        .HasColumnType("text")
+                        .HasColumnName("usuario_modificacion");
 
                     b.HasKey("Id");
 
@@ -158,16 +215,16 @@ namespace VideoClub.Api.Data.Migrations
                     b.Property<long>("ElencoId")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("RolId")
+                    b.Property<long>("RolElencoId")
                         .HasColumnType("bigint");
 
-                    b.HasKey("ArticuloId", "ElencoId", "RolId");
+                    b.HasKey("ArticuloId", "ElencoId", "RolElencoId");
 
                     b.HasIndex("ArticuloId");
 
                     b.HasIndex("ElencoId");
 
-                    b.HasIndex("RolId");
+                    b.HasIndex("RolElencoId");
 
                     b.ToTable("ElencoArticulo", (string)null);
                 });
@@ -189,12 +246,32 @@ namespace VideoClub.Api.Data.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(true);
 
+                    b.Property<DateTime>("FechaCreacion")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("fecha_creacion")
+                        .HasDefaultValueSql("now()");
+
                     b.Property<DateOnly>("FechaIngreso")
                         .HasColumnType("date");
+
+                    b.Property<DateTime?>("FechaModificacion")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("fecha_modificacion");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<string>("NombreUsuario")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("nombre_usuario");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("password_hash");
 
                     b.Property<decimal>("PorcientoComision")
                         .ValueGeneratedOnAdd()
@@ -206,9 +283,21 @@ namespace VideoClub.Api.Data.Migrations
                         .HasColumnType("text")
                         .HasColumnName("tanda_labor");
 
+                    b.Property<string>("UsuarioCreacion")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("usuario_creacion");
+
+                    b.Property<string>("UsuarioModificacion")
+                        .HasColumnType("text")
+                        .HasColumnName("usuario_modificacion");
+
                     b.HasKey("Id");
 
                     b.HasIndex("Cedula")
+                        .IsUnique();
+
+                    b.HasIndex("NombreUsuario")
                         .IsUnique();
 
                     b.ToTable("Empleados", null, t =>
@@ -234,6 +323,25 @@ namespace VideoClub.Api.Data.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(true);
 
+                    b.Property<DateTime>("FechaCreacion")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("fecha_creacion")
+                        .HasDefaultValueSql("now()");
+
+                    b.Property<DateTime?>("FechaModificacion")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("fecha_modificacion");
+
+                    b.Property<string>("UsuarioCreacion")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("usuario_creacion");
+
+                    b.Property<string>("UsuarioModificacion")
+                        .HasColumnType("text")
+                        .HasColumnName("usuario_modificacion");
+
                     b.HasKey("Id");
 
                     b.ToTable("Generos", (string)null);
@@ -255,6 +363,25 @@ namespace VideoClub.Api.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
                         .HasDefaultValue(true);
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("fecha_creacion")
+                        .HasDefaultValueSql("now()");
+
+                    b.Property<DateTime?>("FechaModificacion")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("fecha_modificacion");
+
+                    b.Property<string>("UsuarioCreacion")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("usuario_creacion");
+
+                    b.Property<string>("UsuarioModificacion")
+                        .HasColumnType("text")
+                        .HasColumnName("usuario_modificacion");
 
                     b.HasKey("Id");
 
@@ -295,9 +422,19 @@ namespace VideoClub.Api.Data.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(true);
 
+                    b.Property<DateTime>("FechaCreacion")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("fecha_creacion")
+                        .HasDefaultValueSql("now()");
+
                     b.Property<DateTime?>("FechaDevolucion")
                         .HasColumnType("timestamptz")
                         .HasColumnName("fecha_devolucion");
+
+                    b.Property<DateTime?>("FechaModificacion")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("fecha_modificacion");
 
                     b.Property<DateTime>("FechaRenta")
                         .ValueGeneratedOnAdd()
@@ -311,6 +448,15 @@ namespace VideoClub.Api.Data.Migrations
                     b.Property<string>("NoRenta")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<string>("UsuarioCreacion")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("usuario_creacion");
+
+                    b.Property<string>("UsuarioModificacion")
+                        .HasColumnType("text")
+                        .HasColumnName("usuario_modificacion");
 
                     b.HasKey("Id");
 
@@ -328,7 +474,7 @@ namespace VideoClub.Api.Data.Migrations
                     b.ToTable("RentaDevolucion", (string)null);
                 });
 
-            modelBuilder.Entity("VideoClub.Api.Data.Entities.Rol", b =>
+            modelBuilder.Entity("VideoClub.Api.Data.Entities.RolElenco", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -345,9 +491,28 @@ namespace VideoClub.Api.Data.Migrations
                         .HasColumnType("boolean")
                         .HasDefaultValue(true);
 
+                    b.Property<DateTime>("FechaCreacion")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("fecha_creacion")
+                        .HasDefaultValueSql("now()");
+
+                    b.Property<DateTime?>("FechaModificacion")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("fecha_modificacion");
+
+                    b.Property<string>("UsuarioCreacion")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("usuario_creacion");
+
+                    b.Property<string>("UsuarioModificacion")
+                        .HasColumnType("text")
+                        .HasColumnName("usuario_modificacion");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Roles", (string)null);
+                    b.ToTable("RolesElenco", (string)null);
                 });
 
             modelBuilder.Entity("VideoClub.Api.Data.Entities.TipoArticulo", b =>
@@ -366,6 +531,25 @@ namespace VideoClub.Api.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
                         .HasDefaultValue(true);
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("fecha_creacion")
+                        .HasDefaultValueSql("now()");
+
+                    b.Property<DateTime?>("FechaModificacion")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("fecha_modificacion");
+
+                    b.Property<string>("UsuarioCreacion")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("usuario_creacion");
+
+                    b.Property<string>("UsuarioModificacion")
+                        .HasColumnType("text")
+                        .HasColumnName("usuario_modificacion");
 
                     b.HasKey("Id");
 
@@ -413,9 +597,9 @@ namespace VideoClub.Api.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("VideoClub.Api.Data.Entities.Rol", "Rol")
+                    b.HasOne("VideoClub.Api.Data.Entities.RolElenco", "RolElenco")
                         .WithMany("ElencosArticulos")
-                        .HasForeignKey("RolId")
+                        .HasForeignKey("RolElencoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -423,7 +607,7 @@ namespace VideoClub.Api.Data.Migrations
 
                     b.Navigation("Elenco");
 
-                    b.Navigation("Rol");
+                    b.Navigation("RolElenco");
                 });
 
             modelBuilder.Entity("VideoClub.Api.Data.Entities.RentaDevolucion", b =>
@@ -485,7 +669,7 @@ namespace VideoClub.Api.Data.Migrations
                     b.Navigation("Articulos");
                 });
 
-            modelBuilder.Entity("VideoClub.Api.Data.Entities.Rol", b =>
+            modelBuilder.Entity("VideoClub.Api.Data.Entities.RolElenco", b =>
                 {
                     b.Navigation("ElencosArticulos");
                 });
