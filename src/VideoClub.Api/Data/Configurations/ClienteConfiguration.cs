@@ -16,11 +16,6 @@ public class ClienteConfiguration : IEntityTypeConfiguration<Cliente>
         builder.Property(e => e.NoTarjetaCr).HasColumnName("no_tarjeta_cr").HasColumnType("char(4)").IsRequired().HasMaxLength(4);
         builder.Property(e => e.LimiteCredito).HasColumnType("numeric(10,2)").HasDefaultValue(0);
         builder.Property(e => e.TipoPersona).HasColumnType("text").IsRequired();
-        builder.Property(e => e.Estado).HasDefaultValue(true);
-        builder.Property(e => e.FechaCreacion).HasColumnName("fecha_creacion").HasColumnType("timestamptz").HasDefaultValueSql("now()");
-        builder.Property(e => e.FechaModificacion).HasColumnName("fecha_modificacion").HasColumnType("timestamptz");
-        builder.Property(e => e.UsuarioCreacion).HasColumnName("usuario_creacion").HasColumnType("text").IsRequired();
-        builder.Property(e => e.UsuarioModificacion).HasColumnName("usuario_modificacion").HasColumnType("text");
 
         builder.HasIndex(e => e.Cedula).IsUnique();
     }

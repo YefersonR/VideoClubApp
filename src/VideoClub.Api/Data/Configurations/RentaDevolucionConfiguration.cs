@@ -18,11 +18,6 @@ public class RentaDevolucionConfiguration : IEntityTypeConfiguration<RentaDevolu
         builder.Property(e => e.MontoXdia).HasColumnType("numeric(10,2)").IsRequired();
         builder.Property(e => e.DiasRetraso).HasDefaultValue(0);
         builder.Property(e => e.Comentario).HasColumnType("text");
-        builder.Property(e => e.Estado).HasDefaultValue(true);
-        builder.Property(e => e.FechaCreacion).HasColumnName("fecha_creacion").HasColumnType("timestamptz").HasDefaultValueSql("now()");
-        builder.Property(e => e.FechaModificacion).HasColumnName("fecha_modificacion").HasColumnType("timestamptz");
-        builder.Property(e => e.UsuarioCreacion).HasColumnName("usuario_creacion").HasColumnType("text").IsRequired();
-        builder.Property(e => e.UsuarioModificacion).HasColumnName("usuario_modificacion").HasColumnType("text");
 
         builder.HasOne(e => e.Empleado)
             .WithMany(em => em.Rentas)

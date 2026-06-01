@@ -1,7 +1,11 @@
+using FluentValidation;
+using MediatR;
 using OpenApiUi;
 using Serilog;
 using VideoClub.Api.Data;
+using VideoClub.Api.Features.Articulos;
 using VideoClub.Api.Middleware;
+using VideoClub.Api.PipelineBehaviors;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +15,17 @@ builder.Host.UseSerilog((context, config) =>
 // Add services to the container.
 builder.Services.AddOpenApi();
 builder.Services.AddDatabaseServices(builder.Configuration);
+
+builder.Services.AddMediatR(cfg =>
+    cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+
+builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
+
+builder.Services.AddAutoMapper(cfg => { }, typeof(Program).Assembly);
+
+builder.Services.AddTransient(
+    typeof(IPipelineBehavior<,>),
+    typeof(ValidationBehavior<,>));
 
 var app = builder.Build();
 
@@ -25,28 +40,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+app.MapGroup("/api/articulos")
+    .MapArticuloEndpoints();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

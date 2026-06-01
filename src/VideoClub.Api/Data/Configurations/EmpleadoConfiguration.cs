@@ -18,11 +18,6 @@ public class EmpleadoConfiguration : IEntityTypeConfiguration<Empleado>
         builder.Property(e => e.FechaIngreso).HasColumnType("date").IsRequired();
         builder.Property(e => e.NombreUsuario).HasColumnName("nombre_usuario").HasColumnType("text").IsRequired();
         builder.Property(e => e.PasswordHash).HasColumnName("password_hash").HasColumnType("text").IsRequired();
-        builder.Property(e => e.Estado).HasDefaultValue(true);
-        builder.Property(e => e.FechaCreacion).HasColumnName("fecha_creacion").HasColumnType("timestamptz").HasDefaultValueSql("now()");
-        builder.Property(e => e.FechaModificacion).HasColumnName("fecha_modificacion").HasColumnType("timestamptz");
-        builder.Property(e => e.UsuarioCreacion).HasColumnName("usuario_creacion").HasColumnType("text").IsRequired();
-        builder.Property(e => e.UsuarioModificacion).HasColumnName("usuario_modificacion").HasColumnType("text");
 
         builder.HasIndex(e => e.Cedula).IsUnique();
         builder.HasIndex(e => e.NombreUsuario).IsUnique();
