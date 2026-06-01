@@ -33,6 +33,5 @@ public class ArticuloConfiguration : IEntityTypeConfiguration<Articulo>
         builder.HasIndex(e => e.GeneroId);
         builder.HasIndex(e => e.IdiomaId);
 
-        builder.HasQueryFilter(a => a.Estado);
     }
 }

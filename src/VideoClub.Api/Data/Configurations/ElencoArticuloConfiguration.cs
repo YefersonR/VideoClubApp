@@ -26,5 +26,6 @@ public class ElencoArticuloConfiguration : IEntityTypeConfiguration<ElencoArticu
         builder.HasIndex(e => e.ArticuloId);
         builder.HasIndex(e => e.ElencoId);
         builder.HasIndex(e => e.RolElencoId);
+
     }
 }

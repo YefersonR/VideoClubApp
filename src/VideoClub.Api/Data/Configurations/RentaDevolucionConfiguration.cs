@@ -36,5 +36,6 @@ public class RentaDevolucionConfiguration : IEntityTypeConfiguration<RentaDevolu
         builder.HasIndex(e => e.ArticuloId);
         builder.HasIndex(e => e.ClienteId);
         builder.HasIndex(e => e.FechaRenta);
+
     }
 }
