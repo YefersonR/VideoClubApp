@@ -4,6 +4,7 @@ using OpenApiUi;
 using Serilog;
 using VideoClub.Api.Data;
 using VideoClub.Api.Features.Articulos;
+using VideoClub.Api.Features.Empleados;
 using VideoClub.Api.Middleware;
 using VideoClub.Api.PipelineBehaviors;
 
@@ -42,6 +43,9 @@ app.UseHttpsRedirection();
 
 app.MapGroup("/api/articulos")
     .MapArticuloEndpoints();
+
+app.MapGroup("/api/empleados")
+    .MapEmpleadoEndpoints();
 
 if (app.Environment.IsDevelopment())
     await app.SeedAsync();

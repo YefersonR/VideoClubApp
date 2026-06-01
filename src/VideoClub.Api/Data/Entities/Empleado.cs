@@ -1,3 +1,5 @@
+using VideoClub.Shared.Enums;
+
 namespace VideoClub.Api.Data.Entities;
 
 public class Empleado : AuditableEntity
@@ -5,7 +7,7 @@ public class Empleado : AuditableEntity
     public long Id { get; set; }
     public string Nombre { get; set; } = string.Empty;
     public string Cedula { get; set; } = string.Empty;
-    public string TandaLabor { get; set; } = string.Empty;
+    public TandaLabor TandaLabor { get; set; }
     public decimal PorcientoComision { get; set; }
     public DateOnly FechaIngreso { get; set; }
     public string NombreUsuario { get; set; } = string.Empty;

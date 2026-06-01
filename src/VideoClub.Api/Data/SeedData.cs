@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using VideoClub.Api.Data.Entities;
+using VideoClub.Shared.Enums;
 
 namespace VideoClub.Api.Data;
 
@@ -73,8 +74,13 @@ public static class SeedData
             new Articulo { Titulo = "El Nombre del Viento", TipoArticulo = libro, Genero = fantasia, Idioma = espanol, RentaPorDia = 1.0m, DiasRenta = 14, MontoEntregaTardia = 2, Stock = 6 },
             new Articulo { Titulo = "Inception", TipoArticulo = pelicula, Genero = accion, Idioma = ingles, RentaPorDia = 2.5m, DiasRenta = 3, MontoEntregaTardia = 5, Stock = 10 });
 
+        // Empleados
+        db.Empleados.AddRange(
+            new Empleado { Nombre = "Juan Pérez", Cedula = "001-0000001-1", TandaLabor = TandaLabor.Matutina, PorcientoComision = 10m, FechaIngreso = new DateOnly(2024, 1, 15), NombreUsuario = "jperez", PasswordHash = "123456" },
+            new Empleado { Nombre = "María García", Cedula = "001-0000002-2", TandaLabor = TandaLabor.Vespertina, PorcientoComision = 12m, FechaIngreso = new DateOnly(2024, 3, 1), NombreUsuario = "mgarcia", PasswordHash = "123456" });
+
         await db.SaveChangesAsync();
 
-        logger.LogInformation("Seed completado exitosamente: 3 tipos, 9 géneros, 2 idiomas, 10 artículos.");
+        logger.LogInformation("Seed completado exitosamente: 3 tipos, 9 géneros, 2 idiomas, 10 artículos, 2 empleados.");
     }
 }
