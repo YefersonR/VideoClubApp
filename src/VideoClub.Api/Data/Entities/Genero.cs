@@ -6,4 +6,5 @@ public class Genero : AuditableEntity
     public string Descripcion { get; set; } = string.Empty;
 
     public ICollection<Articulo> Articulos { get; set; } = new List<Articulo>();
+    public ICollection<TipoArticuloGenero> TiposArticulosGeneros { get; set; } = new List<TipoArticuloGenero>();
 }

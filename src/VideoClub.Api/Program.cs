@@ -43,4 +43,7 @@ app.UseHttpsRedirection();
 app.MapGroup("/api/articulos")
     .MapArticuloEndpoints();
 
+if (app.Environment.IsDevelopment())
+    await app.SeedAsync();
+
 app.Run();

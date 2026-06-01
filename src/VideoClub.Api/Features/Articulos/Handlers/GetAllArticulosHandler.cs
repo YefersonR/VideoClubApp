@@ -25,7 +25,6 @@ public class GetAllArticulosHandler : IRequestHandler<GetAllArticulosQuery, Resu
             .Include(e => e.TipoArticulo)
             .Include(e => e.Genero)
             .Include(e => e.Idioma)
-            .OrderBy(e => e.Titulo)
             .ToListAsync(ct);
 
         var dtos = _mapper.Map<List<ArticuloDto>>(entities);

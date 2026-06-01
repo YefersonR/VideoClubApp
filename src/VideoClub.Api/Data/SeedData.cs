@@ -1,0 +1,80 @@
+using Microsoft.EntityFrameworkCore;
+using VideoClub.Api.Data.Entities;
+
+namespace VideoClub.Api.Data;
+
+public static class SeedData
+{
+    public static async Task SeedAsync(this WebApplication app)
+    {
+        using var scope = app.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+
+        if (await db.TiposArticulos.AnyAsync())
+            return;
+
+        logger.LogInformation("Iniciando seed de la base de datos...");
+
+        // Tipos de artículos
+        var pelicula = new TipoArticulo { Descripcion = "Pelicula" };
+        var cdMusica = new TipoArticulo { Descripcion = "CD Musica" };
+        var libro = new TipoArticulo { Descripcion = "Libro" };
+        db.TiposArticulos.AddRange(pelicula, cdMusica, libro);
+        await db.SaveChangesAsync();
+
+        logger.LogInformation("Tipos de artículos insertados.");
+
+        // Géneros
+        var accion = new Genero { Descripcion = "Acción" };
+        var comedia = new Genero { Descripcion = "Comedia" };
+        var drama = new Genero { Descripcion = "Drama" };
+        var rock = new Genero { Descripcion = "Rock" };
+        var pop = new Genero { Descripcion = "Pop" };
+        var salsa = new Genero { Descripcion = "Salsa" };
+        var novela = new Genero { Descripcion = "Novela" };
+        var biografia = new Genero { Descripcion = "Biografía" };
+        var fantasia = new Genero { Descripcion = "Fantasía" };
+        db.Generos.AddRange(accion, comedia, drama, rock, pop, salsa, novela, biografia, fantasia);
+        await db.SaveChangesAsync();
+
+        logger.LogInformation("Géneros insertados.");
+
+        // Idiomas
+        var espanol = new Idioma { Descripcion = "Español" };
+        var ingles = new Idioma { Descripcion = "Ingles" };
+        db.Idiomas.AddRange(espanol, ingles);
+        await db.SaveChangesAsync();
+
+        logger.LogInformation("Idiomas insertados.");
+
+        // Relaciones TipoArticulo ↔ Genero
+        db.TiposArticulosGeneros.AddRange(
+            new TipoArticuloGenero { TipoArticulo = pelicula, Genero = accion },
+            new TipoArticuloGenero { TipoArticulo = pelicula, Genero = comedia },
+            new TipoArticuloGenero { TipoArticulo = pelicula, Genero = drama },
+            new TipoArticuloGenero { TipoArticulo = cdMusica, Genero = rock },
+            new TipoArticuloGenero { TipoArticulo = cdMusica, Genero = pop },
+            new TipoArticuloGenero { TipoArticulo = cdMusica, Genero = salsa },
+            new TipoArticuloGenero { TipoArticulo = libro, Genero = novela },
+            new TipoArticuloGenero { TipoArticulo = libro, Genero = biografia },
+            new TipoArticuloGenero { TipoArticulo = libro, Genero = fantasia });
+
+        // Artículos
+        db.Articulos.AddRange(
+            new Articulo { Titulo = "Terminator", TipoArticulo = pelicula, Genero = accion, Idioma = espanol, RentaPorDia = 2.5m, DiasRenta = 3, MontoEntregaTardia = 5, Stock = 10 },
+            new Articulo { Titulo = "The Hangover", TipoArticulo = pelicula, Genero = comedia, Idioma = ingles, RentaPorDia = 2.0m, DiasRenta = 3, MontoEntregaTardia = 4, Stock = 8 },
+            new Articulo { Titulo = "Titanic", TipoArticulo = pelicula, Genero = drama, Idioma = espanol, RentaPorDia = 3.0m, DiasRenta = 5, MontoEntregaTardia = 6, Stock = 5 },
+            new Articulo { Titulo = "Abbey Road", TipoArticulo = cdMusica, Genero = rock, Idioma = ingles, RentaPorDia = 1.5m, DiasRenta = 7, MontoEntregaTardia = 3, Stock = 15 },
+            new Articulo { Titulo = "Thriller", TipoArticulo = cdMusica, Genero = pop, Idioma = ingles, RentaPorDia = 1.5m, DiasRenta = 7, MontoEntregaTardia = 3, Stock = 20 },
+            new Articulo { Titulo = "A Puro Dolor", TipoArticulo = cdMusica, Genero = salsa, Idioma = espanol, RentaPorDia = 1.5m, DiasRenta = 7, MontoEntregaTardia = 3, Stock = 12 },
+            new Articulo { Titulo = "Cien Años de Soledad", TipoArticulo = libro, Genero = novela, Idioma = espanol, RentaPorDia = 1.0m, DiasRenta = 14, MontoEntregaTardia = 2, Stock = 7 },
+            new Articulo { Titulo = "Steve Jobs", TipoArticulo = libro, Genero = biografia, Idioma = ingles, RentaPorDia = 1.0m, DiasRenta = 14, MontoEntregaTardia = 2, Stock = 5 },
+            new Articulo { Titulo = "El Nombre del Viento", TipoArticulo = libro, Genero = fantasia, Idioma = espanol, RentaPorDia = 1.0m, DiasRenta = 14, MontoEntregaTardia = 2, Stock = 6 },
+            new Articulo { Titulo = "Inception", TipoArticulo = pelicula, Genero = accion, Idioma = ingles, RentaPorDia = 2.5m, DiasRenta = 3, MontoEntregaTardia = 5, Stock = 10 });
+
+        await db.SaveChangesAsync();
+
+        logger.LogInformation("Seed completado exitosamente: 3 tipos, 9 géneros, 2 idiomas, 10 artículos.");
+    }
+}

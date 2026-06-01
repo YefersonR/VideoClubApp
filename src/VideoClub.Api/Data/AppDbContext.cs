@@ -16,6 +16,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<Empleado> Empleados => Set<Empleado>();
     public DbSet<RolElenco> RolesElenco => Set<RolElenco>();
     public DbSet<RentaDevolucion> RentasDevoluciones => Set<RentaDevolucion>();
+    public DbSet<TipoArticuloGenero> TiposArticulosGeneros => Set<TipoArticuloGenero>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
