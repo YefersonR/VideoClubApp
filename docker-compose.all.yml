@@ -1,4 +1,18 @@
 services:
+  api:
+    build:
+      context: .
+      dockerfile: src/VideoClub.Api/Dockerfile
+    container_name: videoclub-api
+    ports:
+      - "5144:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=videoclub;Username=videoclub;Password=videoclub123"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
   postgres:
     image: postgres:16-alpine
     container_name: videoclub-db
@@ -15,6 +29,18 @@ services:
       interval: 10s
       retries: 5
 
+  client:
+    build:
+      context: .
+      dockerfile: src/VideoClub.Client/Dockerfile
+    container_name: videoclub-client
+    ports:
+      - "5294:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - api
+
   seq:
     image: datalust/seq:latest
     container_name: videoclub-seq
@@ -30,3 +56,5 @@ services:
 volumes:
   pgdata:
   seqdata:
+
+
